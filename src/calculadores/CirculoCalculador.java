@@ -6,9 +6,9 @@ import java.util.List;
 import primitivos.Circulo;
 import primitivos.Ponto;
 
-public class CirculoCalculador {
+public class CirculoCalculador { // classe utilizada para realizar os calculos de uma circunferencia
 
-    public List<Ponto> obterPontos(Circulo circulo) {
+    public List<Ponto> obterPontos(Circulo circulo) { //// retorna uma <lista> com os pontos do circ para desenhar na tela
         List<Ponto> pontos = new ArrayList<>();
         final int raio = circulo.getRaio();
         final Ponto pontoOrigem = circulo.getPontoOrigem();

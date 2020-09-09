@@ -8,7 +8,7 @@ import primitivos.Reta;
 
 public class RetaCalculador {
 
-    public static List<Ponto> obterPontos(Reta reta) {
+    public static List<Ponto> obterPontos(Reta reta) { // retorna uma lista com todos os pontos que precisam ser desenhados na tela
         double m = reta.getCoeficienteAngular();
         double b = reta.getA().gety() - m * reta.getA().getx();
         int x1 = (int) Math.floor(reta.getA().getx());
