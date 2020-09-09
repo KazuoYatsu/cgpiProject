@@ -30,6 +30,7 @@ public class TelaPrincipal{
     private MenuItem menuRetas;
     private MenuItem menuCirculos;
     private MenuItem menuCurvaDragao;
+    private MenuItem menuRetasCirculos;
     private Canvas canvas;
     private ControladorDeEventos controladorDeEventos;
 	
@@ -59,7 +60,8 @@ public class TelaPrincipal{
         menuCirculos = new MenuItem("Círculos");
         menuLimpar = new MenuItem("Limpar");
     	menuCurvaDragao = new MenuItem("Curva do Dragão");
-        desenho.getItems().addAll(menuPontos,menuRetas,menuCirculos, menuCurvaDragao);
+		menuRetasCirculos = new MenuItem("Retas e Círculos");
+        desenho.getItems().addAll(menuPontos,menuRetas,menuCirculos, menuCurvaDragao, menuRetasCirculos);
     	opcoes.getItems().add(menuLimpar);
     	menu.getMenus().addAll(desenho,opcoes);
     	
@@ -85,15 +87,15 @@ public class TelaPrincipal{
 	private void atribuirEventosAosComponentesGraficos(){
 		//menu
 		this.menuRetas.setOnAction(e->{
-			controladorDeEventos.getEventoBasicoMenuDesenho(TipoDesenho.RETA);
+			controladorDeEventos.setTipoDesenho(TipoDesenho.RETA);
 		});
 		
 		this.menuPontos.setOnAction(e->{
-			controladorDeEventos.getEventoBasicoMenuDesenho(TipoDesenho.PONTO);
+			controladorDeEventos.setTipoDesenho(TipoDesenho.PONTO);
 		});
 
 		this.menuCirculos.setOnAction(e->{
-			controladorDeEventos.getEventoBasicoMenuDesenho(TipoDesenho.CIRCULO);
+			controladorDeEventos.setTipoDesenho(TipoDesenho.CIRCULO);
 		});
 
 		this.menuLimpar.setOnAction(e->{
@@ -102,6 +104,10 @@ public class TelaPrincipal{
 
 		this.menuCurvaDragao.setOnAction(e->{
 			controladorDeEventos.setTipoDesenho(TipoDesenho.CURVA_DO_DRAGAO);
+		});
+
+		this.menuRetasCirculos.setOnAction(e->{
+			controladorDeEventos.setTipoDesenho(TipoDesenho.RETAS_CIRCULOS);
 		});
 
 		//canvas

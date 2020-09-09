@@ -2,7 +2,6 @@ package gui;
 
 import java.util.List;
 
-import calculadores.CalculadorGenerico;
 import calculadores.CirculoCalculador;
 import calculadores.CurvaDoDragaoCalculador;
 import calculadores.RetaCalculador;
@@ -59,6 +58,8 @@ public class ControladorDeEventos {
 				}
 			} else if (tipoDesenho.equals(TipoDesenho.PONTO)) {
 				desenharPonto((int) Math.floor(event.getX()), (int) Math.floor(event.getY()), "");
+			} else if (tipoDesenho.equals(TipoDesenho.RETAS_CIRCULOS)) {
+				desenharRetasCirculos();
 			} else {
 				preencherCanvasPrimitivosBasicos(new Ponto(event.getX(), event.getY()));
 			}
@@ -67,6 +68,98 @@ public class ControladorDeEventos {
 	
 	public void limparCanvas() {
 		this.canvas.getGraphicsContext2D().clearRect(0,0, canvas.getWidth(), canvas.getHeight());
+	}
+
+	private void desenharRetasCirculos() {
+		limparCanvas();
+		int centro = 325;
+		int raio = 150;
+		double calculoCirculos = 1.15;
+		double calculoReta = 1.75;
+		double calculoRetaDiagonalX = 1.5;
+		double calculoRetaDiagonalY = 0.9;
+
+		setCor(Color.GREEN);
+		desenharCirculo(new Ponto(centro, centro));
+		desenharCirculo(new Ponto(centro + raio, centro));
+
+		desenharCirculo(new Ponto(centro + raio, centro));
+		desenharCirculo(new Ponto(centro, centro));
+
+		desenharCirculo(new Ponto(centro - raio, centro));
+		desenharCirculo(new Ponto(centro, centro));
+
+		desenharCirculo(new Ponto(centro + raio / 2, centro + raio / calculoCirculos));
+		desenharCirculo(new Ponto(centro, centro));
+
+		desenharCirculo(new Ponto(centro + raio / 2, centro - raio / calculoCirculos));
+		desenharCirculo(new Ponto(centro, centro));
+
+		desenharCirculo(new Ponto(centro - raio / 2, centro + raio / calculoCirculos));
+		desenharCirculo(new Ponto(centro, centro));
+
+		desenharCirculo(new Ponto(centro - raio / 2, centro - raio / calculoCirculos));
+		desenharCirculo(new Ponto(centro, centro));
+
+		setCor(Color.RED);
+		Ponto inferior = new Ponto(centro, centro + raio * calculoReta);
+		Ponto superior = new Ponto(centro, centro - raio * calculoReta);
+		Ponto superiorDireito = new Ponto(centro + raio * calculoRetaDiagonalX, centro - raio * calculoRetaDiagonalY);
+		Ponto inferiorDireito = new Ponto(centro + raio * calculoRetaDiagonalX, centro + raio * calculoRetaDiagonalY);
+		Ponto superiorEsquerdo = new Ponto(centro - raio * calculoRetaDiagonalX, centro - raio * calculoRetaDiagonalY);
+		Ponto inferiorEsquerdo = new Ponto(centro - raio * calculoRetaDiagonalX, centro + raio * calculoRetaDiagonalY);
+
+		// --------
+		desenharReta(superior);
+		desenharReta(inferior);
+
+		desenharReta(inferiorEsquerdo);
+		desenharReta(superiorDireito);
+
+		desenharReta(inferiorDireito);
+		desenharReta(superiorEsquerdo);
+
+		// --------
+		desenharReta(superior);
+		desenharReta(superiorDireito);
+
+		desenharReta(superior);
+		desenharReta(superiorEsquerdo);
+
+		desenharReta(superior);
+		desenharReta(inferiorDireito);
+
+		desenharReta(superior);
+		desenharReta(inferiorEsquerdo);
+
+
+		// --------
+		desenharReta(inferior);
+		desenharReta(superiorDireito);
+
+		desenharReta(inferior);
+		desenharReta(superiorEsquerdo);
+
+		desenharReta(inferior);
+		desenharReta(inferiorDireito);
+
+		desenharReta(inferior);
+		desenharReta(inferiorEsquerdo);
+
+
+		// --------
+
+		desenharReta(inferiorDireito);
+		desenharReta(inferiorEsquerdo);
+
+		desenharReta(superiorDireito);
+		desenharReta(superiorEsquerdo);
+
+		desenharReta(superiorDireito);
+		desenharReta(inferiorDireito);
+
+		desenharReta(superiorEsquerdo);
+		desenharReta(inferiorEsquerdo);
 	}
 	
 	private void preencherCanvasCurvaDoDragao() {
@@ -132,9 +225,4 @@ public class ControladorDeEventos {
         // Desenha o ponto
         p.desenharPonto(canvas.getGraphicsContext2D());
     }
-	
-	public void getEventoBasicoMenuDesenho(TipoDesenho desenho){
-		tipoDesenho = desenho;
-		iteracoesCurvaDragao = 0;
-	}
 }
