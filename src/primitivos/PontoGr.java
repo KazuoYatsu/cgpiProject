@@ -3,12 +3,6 @@ package primitivos;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-/**
- * Representa um ponto gr�fico
- *
- * @author Julio Arakaki
- * @version v1.0 Data: 2018/05/06
- */
 public class PontoGr extends Ponto {
     Color cor; // cor do ponto
     String nomeP; // nome do ponto

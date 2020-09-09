@@ -3,9 +3,7 @@ package calculadores;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.scene.canvas.GraphicsContext;
 import primitivos.Ponto;
-import primitivos.PontoGr;
 import primitivos.Reta;
 
 public class RetaCalculador {
@@ -67,8 +65,7 @@ public class RetaCalculador {
         int y1 = (int) Math.floor(reta.getA().gety());
         int y2 = (int) Math.floor(reta.getB().gety());
         List<Ponto> pontos = new ArrayList<>();
-        
-        // Algoritmo Professor adaptado
+
 		int dx, dy, i, e;
 		int incx, incy, inc1, inc2;
 		int x,y;

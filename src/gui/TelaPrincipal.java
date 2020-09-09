@@ -3,7 +3,6 @@ package gui;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -19,11 +18,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import primitivos.Ponto;
 
 public class TelaPrincipal{
 
-    Ponto pontoSelecionado = null;
     private Stage palco;
     private MenuBar menu;
     private Menu desenho;
@@ -48,19 +45,20 @@ public class TelaPrincipal{
 
 		//criando Canvas
         canvas = new Canvas(palco.getWidth(), palco.getHeight());
-		controladorDeEventos = new ControladorDeEventos(canvas);      
+		controladorDeEventos = new ControladorDeEventos(canvas);
+
 		// Painel para os componentes
         BorderPane pane = new BorderPane();
         
         //Criando Menu
         menu = new MenuBar();
         desenho = new Menu("Desenho");
-        opcoes = new Menu("OpÁıes");
+        opcoes = new Menu("Op√ß√µes");
         menuPontos = new MenuItem("Pontos");
         menuRetas = new MenuItem("Retas");
-        menuCirculos = new MenuItem("CÌrculos");
+        menuCirculos = new MenuItem("C√≠rculos");
         menuLimpar = new MenuItem("Limpar");
-    	menuCurvaDragao = new MenuItem("Curva do Drag„o");
+    	menuCurvaDragao = new MenuItem("Curva do Drag√£o");
         desenho.getItems().addAll(menuPontos,menuRetas,menuCirculos, menuCurvaDragao);
     	opcoes.getItems().add(menuLimpar);
     	menu.getMenus().addAll(desenho,opcoes);
@@ -93,21 +91,25 @@ public class TelaPrincipal{
 		this.menuPontos.setOnAction(e->{
 			controladorDeEventos.getEventoBasicoMenuDesenho(TipoDesenho.PONTO);
 		});
+
 		this.menuCirculos.setOnAction(e->{
 			controladorDeEventos.getEventoBasicoMenuDesenho(TipoDesenho.CIRCULO);
 		});
+
 		this.menuLimpar.setOnAction(e->{
 			controladorDeEventos.limparCanvas();
 		});
+
 		this.menuCurvaDragao.setOnAction(e->{
 			controladorDeEventos.setTipoDesenho(TipoDesenho.CURVA_DO_DRAGAO);
 		});
+
 		//canvas
         canvas.setOnMouseMoved(event -> {
-            palco.setTitle("(PosiÁ„o do Cursor):" + " (" + (int) event.getX() + ", " + (int) event.getY() + ")");
+            palco.setTitle("(Posi√ß√£o do Cursor):" + " (" + (int) event.getX() + ", " + (int) event.getY() + ")");
         });
+
         canvas.setOnMousePressed(event -> {
-        	//System.out.println("Clicou nessa porra");
         	controladorDeEventos.onCanvasMousePressed(event);
         });	
 	}
@@ -132,82 +134,9 @@ public class TelaPrincipal{
 		
 		grid.add(new Label("Cor: "), 0, 0);
 		grid.add(colorPicker, 1, 0);
-		grid.add(new Label("Di‚metro dos Pontos: "),2, 0);
+		grid.add(new Label("Di√¢metro dos Pontos: "),2, 0);
 		grid.add(diametroLinhas, 3, 0);
 				
 		return grid;
 	}
-	
-//	private void preencherCanvasBasico(Ponto pt){
-//		List<Ponto> pontos = new ArrayList<>();	 
-//		
-//		switch(tipoDesenho){
-//			case "Pontos":
-//				pontos.add(pt);
-//				break;
-//			case "Retas":
-//				if (pontoSelecionado == null){
-//					pontoSelecionado = pt;
-//				}else{
-//					Reta reta = new Reta(pontoSelecionado, pt);
-//		            //pontos = RetaCalculador.obterPontos(reta);	
-//		            pontos = RetaCalculador.obterPontosAlgoritmoMidPoint(reta);
-//					pontoSelecionado = null;
-//				}
-//	            break;
-//			case "CÌrculos":
-//				if (pontoSelecionado == null){
-//					pontoSelecionado = pt;
-//				}else{
-//					Ponto pontoMedio = CalculadorGenerico.obterPontoMedio(pontoSelecionado, pt);
-//					int raio = CirculoCalculador.obterRaio(pontoMedio, pt);
-//					Circulo circulo = new Circulo(raio, pontoMedio);
-//					pontos = CirculoCalculador.obterPontosAlgoritmoMidPoint(circulo);
-//					pontoSelecionado = null;
-//				}
-//				break;
-//			default:
-//				throw new RuntimeException("Erro interno");
-//		}	
-//		desenharPontos(pontos);
-//	}
-	
-//	private void preencherCanvasCurvaDoDrag„o() {
-//		limparCanvas();
-//		Reta reta = new Reta(new Ponto(150,400), new Ponto(600,400));
-//		CurvaDoDragaoCalculador calc = new CurvaDoDragaoCalculador(reta, this.iteracoesCurvaDragao);
-//	    List<Reta> retasCurvaDragao;
-//		
-//	    try {
-//			retasCurvaDragao = calc.getRetasCurva();
-//			for (Reta retaCalc : retasCurvaDragao){
-//		    	desenharPontos(RetaCalculador.obterPontos(retaCalc));	
-//		    }
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-//	
-//    private void desenharPontos( List<Ponto> pontos) {
-//        for (Ponto p : pontos) {
-//            desenharPonto((int) Math.floor(p.getx()), (int) Math.floor(p.gety()), "");
-//        }
-//    }
-
-//    /**
-//     * Desenha um ponto grafico
-//     *
-//     * @param g        contexto grafico
-//     * @param x        posicao x
-//     * @param y        posicao y
-//     * @param diametro diametro do ponto
-//     * @param nome     nome do ponto
-//     */
-//    public void desenharPonto(int x, int y, String nome) {
-//        PontoGr p;
-//        // Cria um ponto
-//        p = new PontoGr(x, y, cor, nome, diametro);
-//        // Desenha o ponto
-//        p.desenharPonto(gc);
-//    }
 }
