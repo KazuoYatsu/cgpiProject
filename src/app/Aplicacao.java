@@ -12,7 +12,10 @@ public class Aplicacao extends Application {
 
     @Override
     public void start(Stage palco) {
-        new TelaPrincipal(palco);
+        final Stage viewport = new Stage();
+        viewport.setX(0);
+        viewport.setY(0);
+        final TelaPrincipal mapeamento = new TelaPrincipal(viewport, 0.5);
+        new TelaPrincipal(palco, 1, mapeamento);
     }
 }
-

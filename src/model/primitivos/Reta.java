@@ -1,11 +1,7 @@
 /**
  *
  */
-package primitivos;
-
-/**
- * @author ra00170556
- */
+package model.primitivos;
 
 public class Reta {
 

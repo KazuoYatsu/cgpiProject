@@ -3,17 +3,18 @@ package calculadores;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.scene.canvas.GraphicsContext;
-import primitivos.Circulo;
-import primitivos.Ponto;
-import primitivos.PontoGr;
+import model.primitivos.Circulo;
+import model.primitivos.Ponto;
 
+/**
+ * classe onde realiza os calculos do circulo
+ */
 public class CirculoCalculador {
     public static Integer obterRaio(Ponto inicio, Ponto fim) {
         double equacao = Math.pow((fim.getx() - inicio.getx()), 2) + Math.pow((fim.gety() - inicio.gety()), 2);
         return (int) Math.floor(Math.sqrt(equacao));
     }
-    
+    //retorna os pontos dado circulo de acordo com o algoritmo midpoint
     public static List<Ponto> obterPontosAlgoritmoMidPoint(Circulo circulo) {
     	 List<Ponto> pontos = new ArrayList<>();
     	 

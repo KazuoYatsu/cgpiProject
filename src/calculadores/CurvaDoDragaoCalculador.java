@@ -3,21 +3,25 @@ package calculadores;
 import java.util.ArrayList;
 import java.util.List;
 
-import primitivos.Ponto;
-import primitivos.Reta;
+import model.primitivos.Ponto;
+import model.primitivos.Reta;
 
+/**
+ * Classe que realiza os calculos para as retas da curva do dragao
+ */
 public class CurvaDoDragaoCalculador {
 	
 	private List <Reta> retasCurva = new ArrayList<>();
 	private Reta retaInicial;
 	private int iteracoes;
 	
+	//metodo construtor
 	public CurvaDoDragaoCalculador(Reta retaInicial, int iteracoes) {
 		this.retaInicial = retaInicial;
 		this.iteracoes = iteracoes;
 		retasCurva.add(retaInicial);
 	}
-
+     //calcula as retas de acordo com as iteracoes
 	private void obterRetas(Reta reta, int iteracoesT){
 		
 		if (iteracoesT > 0){
@@ -40,7 +44,7 @@ public class CurvaDoDragaoCalculador {
 			retasCurva.add(reta);
 		}		
 	}
-	
+	// retorna as retas calculadas
 	public List<Reta> getRetasCurva(){
 		obterRetas(retaInicial, iteracoes);
 		return this.retasCurva;

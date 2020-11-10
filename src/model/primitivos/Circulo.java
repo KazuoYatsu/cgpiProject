@@ -1,5 +1,8 @@
-package primitivos;
+package model.primitivos;
 
+/**
+ * modelo do circulo
+ */
 public class Circulo {
     private int raio;
     private Ponto pontoOrigem;

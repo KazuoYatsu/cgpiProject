@@ -1,6 +1,6 @@
 package gui;
 
-public enum TipoDesenho {
+public enum TipoDesenho { //define os tipos de desenho
 	RETA,
 	CIRCULO,
 	PONTO,

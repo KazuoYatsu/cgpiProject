@@ -1,4 +1,4 @@
-package primitivos;
+package model.primitivos;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;

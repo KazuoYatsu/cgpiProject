@@ -1,4 +1,4 @@
-package primitivos;
+package model.primitivos;
 
 import javafx.geometry.Point2D;
 

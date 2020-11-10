@@ -3,9 +3,12 @@ package calculadores;
 import java.util.ArrayList;
 import java.util.List;
 
-import primitivos.Ponto;
-import primitivos.Reta;
+import model.primitivos.Ponto;
+import model.primitivos.Reta;
 
+/**
+ * classe que realiza  os calculos da reta
+ */
 public class RetaCalculador {
 
     public static List<Ponto> obterPontos(Reta reta) {
@@ -57,7 +60,7 @@ public class RetaCalculador {
 
         return pontos;
     }
-    
+    //retorna os pontos da retaa de acorod com o algoritmo midpoint
 	public static List<Ponto> obterPontosAlgoritmoMidPoint(Reta reta){
 		
 		int x1 = (int) Math.floor(reta.getA().getx());
