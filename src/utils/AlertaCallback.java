@@ -1,5 +1,5 @@
 package utils;
 
 public interface AlertaCallback {
-	void alertaCallbak();
+    void alertaCallbak();
 }

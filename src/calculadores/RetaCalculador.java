@@ -1,155 +1,161 @@
 package calculadores;
 
+import primitivos.Ponto;
+import primitivos.Reta;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.scene.canvas.GraphicsContext;
-import primitivos.Ponto;
-import primitivos.PontoGr;
-import primitivos.Reta;
-
 public class RetaCalculador {
+    public static List<Ponto> obterPontos(Reta reta) {
+        double m = reta.getCoeficienteAngular();
+        double b = reta.getA().gety() - m * reta.getA().getx();
+        int x1 = (int) Math.floor(reta.getA().getx());
+        int x2 = (int) Math.floor(reta.getB().getx());
+        int y1 = (int) Math.floor(reta.getA().gety());
+        int y2 = (int) Math.floor(reta.getB().gety());
+        int deltaX = (x1 >= x2) ? Math.abs(x1 - x2) : Math.abs(x2 - x1);
+        int deltaY = (y1 >= y2) ? Math.abs(y1 - y2) : Math.abs(y2 - y1);
+        List<Ponto> pontos = new ArrayList<>();
 
-	public static List<Ponto> obterPontos(Reta reta){
-		double m = reta.getCoeficienteAngular();
-		double b = reta.getA().gety() - m * reta.getA().getx();
-		int x1 = (int) Math.floor(reta.getA().getx());
-		int x2 = (int) Math.floor(reta.getB().getx());
-		int y1 = (int) Math.floor(reta.getA().gety());
-		int y2 = (int) Math.floor(reta.getB().gety());
-		int deltaX = (x1 >= x2) ? Math.abs(x1 - x2) : Math.abs(x2 - x1);
-		int deltaY = (y1 >= y2) ? Math.abs(y1 - y2) : Math.abs(y2 - y1);
-		List<Ponto> pontos = new ArrayList<Ponto>();
+        if (x2 < x1) {
+            int aux = x1;
+            x1 = x2;
+            x2 = aux;
+        }
 
-		if (x2 < x1) {
-			int aux = x1;
-			x1 = x2;
-			x2 = aux;
-		}
+        if (y2 < y1) {
+            int aux = y1;
+            y1 = y2;
+            y2 = aux;
+        }
 
-		if (y2 < y1) {
-			int aux = y1;
-			y1 = y2;
-			y2 = aux;
-		}
+        if (deltaX == 0) {
+            // TODO: Loop que sÃ³ anda no y: Linha vertical
+            for (int y = y1; y <= y2; y++) {
+                pontos.add(new Ponto(x1, y));
+            }
+        } else if (deltaY == 0) {
+            // TODO: Loop que sÃ³ anda no x: Linha horizontal
+            for (int x = x1; x <= x2; x++) {
+                pontos.add(new Ponto(x, y1));
+            }
+        } else if (deltaX > deltaY) {
+            // TODO: Loop que usa o x para achar o y
+            for (int x = x1; x <= x2; x++) {
+                int y_atual = (int) Math.floor(m * x + b);
+                pontos.add(new Ponto(x, y_atual));
+            }
+        } else {
+            // TODO: Loop que usa o y para achar o x
+            for (int y = y1; y <= y2; y++) {
+                int x_atual = (int) Math.floor((y - b) / m);
+                pontos.add(new Ponto(x_atual, y));
+            }
+        }
 
-		if (deltaX == 0) {
-			// TODO: Loop que sÃ³ anda no y: Linha vertical
-			for (int y = y1; y <= y2; y++) {
-				pontos.add(new Ponto(x1, y));
-			}
-		} else if (deltaY == 0) {
-			// TODO: Loop que sÃ³ anda no x: Linha horizontal
-			for (int x = x1; x <= x2; x++) {
-				pontos.add(new Ponto(x, y1));
-			}
-		} else if (deltaX > deltaY) {
-			// TODO: Loop que usa o x para achar o y
-			for (int x = x1; x <= x2; x++) {
-				int y_atual = (int) Math.floor(m * x + b);
-				pontos.add(new Ponto(x, y_atual));
-			}
-		} else {
-			// TODO: Loop que usa o y para achar o x
-			for (int y = y1; y <= y2; y++) {
-				int x_atual = (int) Math.floor((y - b) / m);
-				pontos.add(new Ponto(x_atual, y));
-			}
-		}
+        return pontos;
+    }
 
-		return pontos;
-	}
+    public static List<Ponto> obterPontosAlgoritmoMidPoint(Reta reta) {
 
-	public static List<Ponto> obterPontosAlgoritmoMidPoint(Reta reta) {
+        int x1 = (int) Math.floor(reta.getA().getx());
+        int x2 = (int) Math.floor(reta.getB().getx());
+        int y1 = (int) Math.floor(reta.getA().gety());
+        int y2 = (int) Math.floor(reta.getB().gety());
+        List<Ponto> pontos = new ArrayList<>();
 
-		int x1 = (int) Math.floor(reta.getA().getx());
-		int x2 = (int) Math.floor(reta.getB().getx());
-		int y1 = (int) Math.floor(reta.getA().gety());
-		int y2 = (int) Math.floor(reta.getB().gety());
-		List<Ponto> pontos = new ArrayList<Ponto>();
+        // Algoritmo Professor adaptado
+        int dx, dy, i, e;
+        int incx, incy, inc1, inc2;
+        int x, y;
 
-		// Algoritmo Professor adaptado
-		int dx, dy, i, e;
-		int incx, incy, inc1, inc2;
-		int x, y;
+        dx = x2 - x1;
+        dy = y2 - y1;
 
-		dx = x2 - x1;
-		dy = y2 - y1;
+        if (dx < 0) {
+            dx = -dx;
+        }
 
-		if (dx < 0)
-			dx = -dx;
-		if (dy < 0)
-			dy = -dy;
-		incx = 1;
-		if (x2 < x1)
-			incx = -1;
-		incy = 1;
-		if (y2 < y1)
-			incy = -1;
-		x = x1;
-		y = y1;
-		pontos.add(new Ponto(0, 0));
-		if (dx > dy) {
-			pontos.add(new Ponto(x, y));
-			e = 2 * dy - dx;
-			inc1 = 2 * (dy - dx);
-			inc2 = 2 * dy;
-			for (i = 0; i < dx; i++) {
-				if (e >= 0) {
-					y += incy;
-					e += inc1;
-				} else
-					e += inc2;
-				x += incx;
-				pontos.add(new Ponto(x, y));
-			}
+        if (dy < 0) {
+            dy = -dy;
+        }
 
-		} else {
-			pontos.add(new Ponto(x, y));
-			e = 2 * dx - dy;
-			inc1 = 2 * (dx - dy);
-			inc2 = 2 * dx;
-			for (i = 0; i < dy; i++) {
-				if (e >= 0) {
-					x += incx;
-					e += inc1;
-				} else
-					e += inc2;
-				y += incy;
-				pontos.add(new Ponto(x, y));
-			}
-		}
+        incx = 1;
 
-		return pontos;
-	}
-	
-	public static double calcularDistanciaPontoReta(Ponto pt, Reta reta) {
+        if (x2 < x1) {
+            incx = -1;
+        }
 
-		// Precisa da equação da reta
-		/*
-		 * y1 – y2 = a 
-		 * x2 – x1 = b
-		 * x1y2 – x2y1 = c 
-		 * A equação geral da reta: ax + by + c = 0 
-		*/
-		double a = reta.getA().gety() - reta.getB().gety();
-		double b = reta.getB().getx() - reta.getA().getx();;
-		double c = (reta.getA().getx()*reta.getB().gety() - (reta.getB().getx()*reta.getA().gety()));
-		
-		// Fórmula de cálculo da distância
-		// d = |ax0 + by0 + c| / sqrt(a2 + b2)
-		
-		double distancia = Math.abs((a*pt.getx())+b*pt.gety()+c) / Math.sqrt(Math.pow(a, 2)+Math.pow(b, 2));	
-		return (validaDistanciaPontoSegmentorDeReta(pt, reta)) ? distancia : distancia+10;
-	}
-	
-	// Verifica se ponto pertence a reta mas não ao segmento desenhado
-	private static boolean validaDistanciaPontoSegmentorDeReta(Ponto pt, Reta reta) {
-		
-		double tamanhoReta = CalculadorGenerico.obterDistanciaEntreDoisPontos(reta.getA(), reta.getB());
-		double distanciaPontoA = CalculadorGenerico.obterDistanciaEntreDoisPontos(pt, reta.getA());
-		double distanciaPontoB = CalculadorGenerico.obterDistanciaEntreDoisPontos(pt, reta.getB());
-		boolean distanciaValida = (distanciaPontoA > tamanhoReta || distanciaPontoB > tamanhoReta ) ? false : true;		
-		return distanciaValida;
-	}
+        incy = 1;
+
+        if (y2 < y1) {
+            incy = -1;
+        }
+
+        x = x1;
+        y = y1;
+
+        pontos.add(new Ponto(0, 0));
+        pontos.add(new Ponto(x, y));
+
+        if (dx > dy) {
+            e = 2 * dy - dx;
+            inc1 = 2 * (dy - dx);
+            inc2 = 2 * dy;
+            for (i = 0; i < dx; i++) {
+                if (e >= 0) {
+                    y += incy;
+                    e += inc1;
+                } else
+                    e += inc2;
+                x += incx;
+                pontos.add(new Ponto(x, y));
+            }
+
+        } else {
+            e = 2 * dx - dy;
+            inc1 = 2 * (dx - dy);
+            inc2 = 2 * dx;
+            for (i = 0; i < dy; i++) {
+                if (e >= 0) {
+                    x += incx;
+                    e += inc1;
+                } else
+                    e += inc2;
+                y += incy;
+                pontos.add(new Ponto(x, y));
+            }
+        }
+
+        return pontos;
+    }
+
+    public static double calcularDistanciaPontoReta(Ponto pt, Reta reta) {
+        // Precisa da equacaoo da reta
+        /*
+         * y1 ï¿½ y2 = a
+         * x2 ï¿½ x1 = b
+         * x1y2 ï¿½ x2y1 = c
+         * A equacao geral da reta: ax + by + c = 0
+         */
+        double a = reta.getA().gety() - reta.getB().gety();
+        double b = reta.getB().getx() - reta.getA().getx();
+
+        double c = (reta.getA().getx() * reta.getB().gety() - (reta.getB().getx() * reta.getA().gety()));
+
+        // Formula de calculo da distancia
+        // d = |ax0 + by0 + c| / sqrt(a2 + b2)
+
+        double distancia = Math.abs((a * pt.getx()) + b * pt.gety() + c) / Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+        return (validaDistanciaPontoSegmentorDeReta(pt, reta)) ? distancia : distancia + 10;
+    }
+
+    // Verifica se ponto pertence a reta mas nao ao segmento desenhado
+    private static boolean validaDistanciaPontoSegmentorDeReta(Ponto pt, Reta reta) {
+        double tamanhoReta = CalculadorGenerico.obterDistanciaEntreDoisPontos(reta.getA(), reta.getB());
+        double distanciaPontoA = CalculadorGenerico.obterDistanciaEntreDoisPontos(pt, reta.getA());
+        double distanciaPontoB = CalculadorGenerico.obterDistanciaEntreDoisPontos(pt, reta.getB());
+        return !(distanciaPontoA > tamanhoReta) && !(distanciaPontoB > tamanhoReta);
+    }
 }
